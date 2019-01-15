@@ -149,6 +149,10 @@ func (queue *Queue) Stop() error {
 	queue.actLock.Lock()
 	defer queue.actLock.Unlock()
 
+	if !queue.active {
+		return nil
+	}
+
 	queue.active = false
 	close(queue.maybeLoadFromStorageCh)
 	close(queue.call)
